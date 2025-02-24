@@ -124,6 +124,10 @@ class Musicians:
         CONN.commit()
         print(f"Musician {name} deleted.")
 
+
+def cli():
+    while True:
+        print("\n=== Musician Manager CLI ===")
         
     
 
