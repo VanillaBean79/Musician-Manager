@@ -7,14 +7,14 @@ CURSOR = CONN.cursor()
 def create_tables():
     with CONN:
         CONN.execute("""
-            CREATE TABLE IF NOT EXIST managers (
+            CREATE TABLE IF NOT EXISTS managers (
                      id INTEGER PRIMARY KEY,
                      name TEXT NOT NULL,
                      age INTEGER NOT NULL )
                      """)
             
         CONN.execute("""
-            CREATE TABLE IF NOT EXIST musicians (
+            CREATE TABLE IF NOT EXISTS musicians (
                      id INTEGER PRIMARY KEY,
                      name TEXT NOT NULL,
                      age INTEGER NOT NULL,
@@ -27,6 +27,16 @@ def create_tables():
 
 class Manager:
     all = {} # A dictionary of manager data
+
+    #Create Manager
+    @staticmethod
+    def create_manager(name, age):
+        with CONN:
+            CONN.execute("""
+            INSERT INTO managers (name, age)
+                VALUES (?, ?)
+            """, (name, age))
+            print(f"Manager {name} created successfully.")
 
     def __init__(self, name, age):
         self.name = name
@@ -46,3 +56,11 @@ class Manager:
             self._name = name
         else:
             raise ValueError("Name must be a string.")
+        
+    
+
+
+create_tables()
+Manager.create_manager("Bob Loblaw", 55)
+
+CONN.close()
