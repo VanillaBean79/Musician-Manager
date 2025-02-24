@@ -32,3 +32,8 @@ class Manager:
         self.name = name
         self.age = age
         Manager.all[name] = self
+
+    def __repr__(self):
+        return f"<The manager is {self.name} and is {self.age} years young.>"
+    
+    
