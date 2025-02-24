@@ -112,7 +112,20 @@ class Musicians:
         CURSOR.execute("""SELECT * FROM musicians WHERE musician name LIKE ?""",
                        (name + '%'))
         rows = CURSOR.fetchall()
-        [print(row) for row in rows] if rows else None
+        if rows:
+            for row in rows:
+                print(row)
+            else:
+                print(f"No musician found with that name.")
+
+    def delete_musician(name):
+        CURSOR.execute("""DELET FROM musicians WHERE name = ? """,
+                       (name))
+        CONN.commit()
+        print(f"Musician {name} deleted.")
+
+        
+    
 
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
