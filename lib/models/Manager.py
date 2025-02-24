@@ -29,15 +29,6 @@ class Manager:
     all = {} # A dictionary of manager data
 
     #Create Manager
-    @staticmethod
-    def create_manager(name, age):
-        with CONN:
-            CONN.execute("""
-            INSERT INTO managers (name, age)
-                VALUES (?, ?)
-            """, (name, age))
-            print(f"Manager {name} created successfully.")
-
     def __init__(self, name, age):
         self.name = name
         self.age = age
@@ -57,8 +48,18 @@ class Manager:
         else:
             raise ValueError("Name must be a string.")
         
-    
+    def create_manager(name, age):
+        with CONN:
+            CONN.execute("""
+            INSERT INTO managers (name, age)
+                VALUES (?, ?)
+            """, (name, age))
+            print(f"Manager {name} created successfully.")
 
+    def delete_manager(name):
+        CURSOR.execute("DELETE FROM manager WHERE name = ?" (name))
+        CONN.commit()
+        print(f"Manager {name} deleted.") #Bug catcher
 
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
