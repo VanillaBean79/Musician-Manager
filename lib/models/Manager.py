@@ -95,7 +95,11 @@ class Musicians:
                 INSERT INTO musicians (name, age, instrument, category, manager_id)
                          VALUES (?, ?, ?, ?, ?)""", (name, age, instrument, category, manager_id))
             
-            
+    def view_all_musicians():
+        CURSOR.execute("SELECT * FROM musicians")
+        rows = CURSOR.fetchall()
+        for row in rows:
+            print(row)
 
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
