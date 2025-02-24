@@ -101,6 +101,13 @@ class Musicians:
         for row in rows:
             print(row)
 
+    def view_musicians_by_manager(manager_id):
+        CURSOR.execute("""SELECET * FROM musicians WHERE manager id = ?
+                       """, (manager_id))
+        rows = CURSOR.fetchall()
+        for row in rows:
+            print(row)
+
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
 
