@@ -86,6 +86,9 @@ class Musicians:
         self.manager_id = manager_id
         Musicians.all[name] = self
 
+    def __repr__(self):
+        return f"< {self.name}, is {self.age} years young., They play {self.instrument}, in the {self.category} section."
+
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
 
