@@ -69,6 +69,11 @@ class Manager:
         else:
             print(f"Manager with name {name} not found.")
 
+    def view_all_managers():
+        CURSOR.execute("SELECT * FROM manager")
+        rows = CURSOR.fetchall()
+        for row in rows:
+            print(row)
 
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
