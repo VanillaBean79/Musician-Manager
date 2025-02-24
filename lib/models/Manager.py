@@ -57,9 +57,18 @@ class Manager:
             print(f"Manager {name} created successfully.")
 
     def delete_manager(name):
-        CURSOR.execute("DELETE FROM manager WHERE name = ?" (name))
+        CURSOR.execute("DELETE FROM manager WHERE name = ?", (name))
         CONN.commit()
         print(f"Manager {name} deleted.") #Bug catcher
+
+    def find_manager_by_name(name):
+        CURSOR.execute("SELECT * FROM manager WHERE name = ?", (name))
+        row = CURSOR.fetchone()
+        if row:
+            print(row)
+        else:
+            print(f"Manager with name {name} not found.")
+
 
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
