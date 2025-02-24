@@ -88,6 +88,14 @@ class Musicians:
 
     def __repr__(self):
         return f"< {self.name}, is {self.age} years young., They play {self.instrument}, in the {self.category} section."
+    
+    def create_musician(name, age, instrument, category, manager_id):
+        with CONN:
+            CONN.execute("""
+                INSERT INTO musicians (name, age, instrument, category, manager_id)
+                         VALUES (?, ?, ?, ?, ?)""", (name, age, instrument, category, manager_id))
+            
+            
 
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
