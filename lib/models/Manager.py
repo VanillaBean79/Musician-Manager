@@ -75,6 +75,17 @@ class Manager:
         for row in rows:
             print(row)
 
+class Musicians:
+    all = {} #Dictionary of musician names stored in memory NOT in database.
+
+    def __init__(self, name, age, instrument, category, manager_id):
+        self.name = name
+        self.age = age
+        self.instrument = instrument
+        self.category = category
+        self.manager_id = manager_id
+        Musicians.all[name] = self
+
 create_tables()
 Manager.create_manager("Bob Loblaw", 55)
 
