@@ -128,6 +128,19 @@ class Musicians:
 def cli():
     while True:
         print("\n=== Musician Manager CLI ===")
+        print("1. Create Manager")
+        print("2. Create Musician")
+        print("3. View All Managers")
+        print("4. View All Musicians")
+        print("5. View Musicians by Manager")
+        print("6. Find Manager by Name")
+        print("7. Find Musician by Name")
+        print("8. Delete Manager")
+        print("9. Delete Musician")
+        print("0. Exit")
+
+        choice = input("Choose an option:")
+
         
     
 
