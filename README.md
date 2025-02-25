@@ -1,172 +1,149 @@
-# Phase 3 CLI+ORM Project Template
+Musician and Manager CLI Application
+Overview
+This command-line interface (CLI) application helps to manage musicians and managers using an SQLite database. The user can create, view, find, and delete musicians and managers, and link musicians to managers. The application is built in Python, utilizing SQLite for storing data persistently.
 
-## Learning Goals
-
-- Discuss the basic directory structure of a CLI.
-- Outline the first steps in building a CLI.
-
----
-
-## Introduction
-
-You now have a basic idea of what constitutes a CLI. Fork and clone this lesson
-for a project template for your CLI.
-
-Take a look at the directory structure:
-
-```console
+Project Structure
+plaintext
+Copy
 .
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── models
-    │   ├── __init__.py
-    │   └── model_1.py
-    ├── cli.py
-    ├── debug.py
-    └── helpers.py
-```
+├── manager.py
+└── musicians.db
+manager.py (CLI Script)
+The manager.py file is the core of the project. It provides the CLI through which the user can interact with the application, execute commands, and manage the data. This script includes functions for creating and deleting managers and musicians, viewing the records, and searching for data in the SQLite database.
 
-Note: The directory also includes two files named `CONTRIBUTING.md` and
-`LICENSE.md` that are specific to Flatiron's curriculum. You can disregard or
-delete the files if you want.
+CLI Functions
+create_manager(name, age)
 
----
+Inserts a new manager record into the managers table with the given name and age.
+create_musician(name, age, instrument, category, manager_id)
 
-## Generating Your Environment
+Inserts a new musician record into the musicians table. The musician is associated with a manager by the manager_id.
+view_all_managers()
 
-You might have noticed in the file structure- there's already a Pipfile!
+Displays all managers stored in the managers table.
+view_all_musicians()
 
-Install any additional dependencies you know you'll need for your project by
-adding them to the `Pipfile`. Then run the commands:
+Displays all musicians stored in the musicians table.
+find_manager_by_name(name)
 
-```console
-pipenv install
-pipenv shell
-```
+Finds and displays a manager's details based on the provided name.
+find_musician_by_name(name)
 
----
+Finds and displays musicians whose names match the provided input. It performs a partial search, allowing the user to input only a portion of the name.
+view_musicians_by_manager(manager_id)
 
-## Generating Your CLI
+Lists all musicians associated with a specific manager, using the manager_id.
+delete_manager(name)
 
-A CLI is, simply put, an interactive script and prompts the user and performs
-operations based on user input.
+Deletes a manager from the database by their name.
+delete_musician(name)
 
-The project template has a sample CLI in `lib/cli.py` that looks like this:
+Deletes a musician from the database by their name.
+cli()
 
-```py
-# lib/cli.py
+The main CLI loop where the user is presented with a menu of options. The user selects an action (such as creating a manager, creating a musician, viewing data, etc.) and the corresponding function is called to execute the action.
+Example of usage in the CLI:
 
-from helpers import (
-    exit_program,
-    helper_1
-)
+bash
+Copy
+=== Musician Manager CLI ===
+1. Create Manager
+2. Create Musician
+3. View All Managers
+4. View All Musicians
+5. View Musicians by Manager
+6. Find Manager by Name
+7. Find Musician by Name
+8. Delete Manager
+9. Delete Musician
+0. Exit
+Choose an option: 1
+Enter manager's name: John Doe
+Enter manager's age: 45
+musicians.db (Database File)
+This is the SQLite database where all data (managers and musicians) are stored. It contains two tables:
 
+managers Table:
 
-def main():
-    while True:
-        menu()
-        choice = input("> ")
-        if choice == "0":
-            exit_program()
-        elif choice == "1":
-            helper_1()
-        else:
-            print("Invalid choice")
+id: Unique identifier for the manager.
+name: The manager's name.
+age: The manager's age.
+musicians Table:
 
+id: Unique identifier for the musician.
+name: The musician's name.
+age: The musician's age.
+instrument: The instrument the musician plays.
+category: The musical category or section the musician belongs to (e.g., strings, percussion).
+manager_id: Foreign key referencing the id of the manager who manages the musician.
+Detailed Description of Functions
+Manager Functions
+create_manager(name, age)
 
-def menu():
-    print("Please select an option:")
-    print("0. Exit the program")
-    print("1. Some useful function")
+Inserts a manager into the managers table.
+Arguments:
+name: A string representing the manager's name.
+age: An integer representing the manager's age.
+delete_manager(name)
 
+Deletes a manager by their name.
+Arguments:
+name: A string representing the manager's name to be deleted.
+find_manager_by_name(name)
 
-if __name__ == "__main__":
-    main()
-```
+Fetches a manager’s details based on the input name.
+Arguments:
+name: A string representing the manager's name.
+view_all_managers()
 
-The helper functions are located in `lib/helpers.py`:
+Retrieves and displays all managers in the managers table.
+Musician Functions
+create_musician(name, age, instrument, category, manager_id)
 
-```py
-# lib/helpers.py
+Adds a musician to the musicians table.
+Arguments:
+name: A string representing the musician’s name.
+age: An integer representing the musician’s age.
+instrument: A string representing the instrument the musician plays.
+category: A string representing the category the musician falls under (e.g., strings, percussion).
+manager_id: The ID of the manager associated with the musician.
+delete_musician(name)
 
-def helper_1():
-    print("Performing useful function#1.")
+Deletes a musician by their name.
+Arguments:
+name: A string representing the musician's name to be deleted.
+find_musician_by_name(name)
 
+Searches and retrieves musicians whose names match the input string.
+Arguments:
+name: A string representing the musician’s name or part of the name for a partial match.
+view_musicians_by_manager(manager_id)
 
-def exit_program():
-    print("Goodbye!")
-    exit()
-```
+Displays all musicians that are managed by a specific manager, identified by the manager_id.
+Arguments:
+manager_id: An integer representing the ID of the manager.
+view_all_musicians()
 
-You can run the template CLI with `python lib/cli.py`, or include the shebang
-and make it executable with `chmod +x`. The template CLI will ask for input, do
-some work, and accomplish some sort of task.
+Displays all musicians from the musicians table.
+Setting Up and Running the Application
+Clone the repository to your local machine:
 
-Past that, CLIs can be whatever you'd like, as long as you follow the project
-requirements.
+bash
+Copy
+git clone https://github.com/yourusername/musician-manager-cli.git
+Change into the project directory:
 
-Of course, you will update `lib/cli.py` with prompts that are appropriate for
-your application, and you will update `lib/helpers.py` to replace `helper_1()`
-with a useful function based on the specific problem domain you decide to
-implement, along with adding other helper functions to the module.
+bash
+Copy
+cd musician-manager-cli
+Set up a virtual environment (optional but recommended):
 
-In the `lib/models` folder, you should rename `model_1.py` with the name of a
-data model class from your specific problem domain, and add other classes to the
-folder as needed. The file `lib/models/__init__.py` has been initialized to
-create the necessary database constants. You need to add import statements to
-the various data model classes in order to use the database constants.
+bash
+Copy
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+Run the application:
 
-You are also welcome to implement a different module and directory structure.
-However, your project should be well organized, modular, and follow the design
-principal of separation of concerns, which means you should separate code
-related to:
-
-- User interface
-- Data persistence
-- Problem domain rules and logic
-
----
-
-## Updating README.md
-
-`README.md` is a Markdown file that should describe your project. You will
-replace the contents of this `README.md` file with a description of **your**
-actual project.
-
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this assignments's resources for a basic guide to Markdown.
-
-### What Goes into a README?
-
-This README serves as a template. Replace the contents of this file to describe
-the important files in your project and describe what they do. Each Python file
-that you edit should get at least a paragraph, and each function should be
-described with a sentence or two.
-
-Describe your actual CLI script first, and with a good level of detail. The rest
-should be ordered by importance to the user. (Probably functions next, then
-models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
----
-
-## Conclusion
-
-A lot of work goes into a good CLI, but it all relies on concepts that you've
-practiced quite a bit by now. Hopefully this template and guide will get you off
-to a good start with your Phase 3 Project.
-
-Happy coding!
-
----
-
-## Resources
-
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
+bash
+Copy
+python manager.py
