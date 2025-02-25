@@ -206,9 +206,9 @@ def cli():
 
 
 # Run the CLI
-if __name__ == "main":
+if __name__ == "__main__":
     create_tables()
     cli()
-    
+
 #Close the database connection
 CONN.close()
