@@ -205,14 +205,10 @@ def cli():
             print("Invalid choice. Please try again.")
 
 
-
-
-    
-
 # Run the CLI
-if __name__ == "__main__":
+if __name__ == "main":
     create_tables()
     cli()
-
-
+    
+#Close the database connection
 CONN.close()
