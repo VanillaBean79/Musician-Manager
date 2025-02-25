@@ -181,6 +181,30 @@ def cli():
             manager_id = int(input("Enter manager's ID:"))
             view_musicians_by_manager()
 
+        elif choice == '6':
+            name = input("Enter manager's name:")
+            find_manager_by_name(name)
+
+        elif choice == '7':
+            first_name = input("Enter musician's first name:")
+            find_musician_by_name(first_name)
+
+        elif choice == '8':
+            name = input("Enter manager's name:")
+            delete_manager(name)
+
+        elif choice == '9':
+            name = input("Enter musician's name:")
+            delete_musician(name)
+
+        elif choice == '0':
+            print("Exiting the application.")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+
+
 
 
     
