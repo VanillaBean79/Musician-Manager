@@ -5,10 +5,14 @@ def get_connection():
     return sqlite3.connect('musicians.db')
 
 class Manager:
+
     def __init__(self, name, age, id=None):
         self.id = id
         self.name = name
         self.age = age
+
+    def __repr__(self):
+        return f"Manager {self.name} is {self.age} years old and their id is {self.id}."
 
     @property
     def name(self):
@@ -20,6 +24,7 @@ class Manager:
             self._name = name
         else:
             print(f"Name must be a string.")
+
 
 
 def create_manager(name, age):
@@ -60,5 +65,6 @@ def delete_manager(name):
     conn.close()  
 
 
-manager1 = Manager("Jill", 43)
+manager1 = Manager("Jill", 43, 7)
 create_manager(manager1.name, manager1.age)
+print(manager1)

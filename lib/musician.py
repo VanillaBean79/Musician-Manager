@@ -22,6 +22,16 @@ class Musician:
         else:
             print(f"Name must be a string.")
 
+    @classmethod
+    def filter_by_category(cls, category):
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM musicians WHERE category COLLATE NOCASE = ?", (category,))
+        rows = cursor.fetchall()
+        conn.close()
+        return rows
+
 
 def create_musician(name, age, instrument, category, manager_id):
     conn = get_connection()
@@ -67,3 +77,7 @@ def delete_musician(name):
         conn.execute("DELETE FROM musicians WHERE name = ?", (name,))
     print(f"Musician {name} deleted.")
     conn.close()  
+
+
+musicians_in_horn_section = Musician.filter_by_category("Horn")
+print(musicians_in_horn_section)
