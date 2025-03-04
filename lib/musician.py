@@ -3,6 +3,25 @@ import sqlite3
 def get_connection():
     return sqlite3.connect('musicians.db')
 
+class Musician:
+    def __init__(self, name, age, instrument, category, manager_id):
+        self.name = name
+        self.age = age
+        self.instrument = instrument
+        self.category = category
+        self.manager_id = manager_id
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, name):
+        if isinstance(name, str) and len(name):
+            self._name = name
+        else:
+            print(f"Name must be a string.")
+
 
 def create_musician(name, age, instrument, category, manager_id):
     conn = get_connection()
@@ -41,7 +60,7 @@ def find_musician_by_name(name):
     conn.close()  
     return rows
 
-# Delete musician
+
 def delete_musician(name):
     conn = get_connection()
     with conn:

@@ -1,10 +1,10 @@
 # cli.py
-import os
+
 from manager import create_manager, view_all_managers, find_manager_by_name, delete_manager
 from musician import create_musician, view_all_musicians, view_musicians_by_manager, find_musician_by_name, delete_musician
 from helpers import format_manager, format_musician
 
-# Function to create tables if they don't exist
+
 def create_tables():
     import sqlite3
     conn = sqlite3.connect('musicians.db')
@@ -30,7 +30,7 @@ def create_tables():
     conn.commit()
     conn.close()
 
-# CLI Menu
+
 def cli():
     while True:
         print("\n=== Musician Manager CLI ===")
@@ -53,7 +53,7 @@ def cli():
         else:
             print("Invalid choice. Please try again.")
 
-# Manage Managers Flow
+
 def manage_managers():
     while True:
         print("\n=== Manage Managers ===")
@@ -97,7 +97,7 @@ def manage_managers():
         else:
             print("Invalid choice. Please try again.")
 
-# Manage Musicians Flow
+
 def manage_musicians():
     while True:
         print("\n=== Manage Musicians ===")
@@ -154,7 +154,7 @@ def manage_musicians():
         else:
             print("Invalid choice. Please try again.")
 
-# Create Musician Flow - with context
+
 def create_musician_flow():
     print("\n--- Available Managers ---")
     managers = view_all_managers()
@@ -170,14 +170,9 @@ def create_musician_flow():
     create_musician(name, age, instrument, category, manager_id)
     print(f"{name} has been added as a musician under manager ID {manager_id}.")
 
-# Run the CLI
+
 if __name__ == "__main__":
-    create_tables()  # Ensure tables are created on initial run
+    create_tables()  
     cli()
 
-    # Close the database connection
-    from manager import close_connection as close_manager_conn
-    from musician import close_connection as close_musician_conn
-    close_manager_conn()
-    close_musician_conn()
-
+  
