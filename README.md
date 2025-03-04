@@ -1,152 +1,136 @@
-Musician and Manager CLI Application
-Overview
-This command-line interface (CLI) application helps to manage musicians and managers using an SQLite database. The user can create, view, find, and delete musicians and managers, and link musicians to managers. The application is built in Python, utilizing SQLite for storing data persistently.
+Musician Manager CLI
+The Musician Manager CLI is a simple command-line application that allows you to manage a list of musicians and their associated managers. The app allows you to create, view, update, and delete musicians and managers. It uses a SQLite database (musicians.db) to store the data.
 
+Features
+Manage Managers: Create, view, find by name, and delete managers.
+Manage Musicians: Create, view all, view musicians by manager, find musicians by name, and delete musicians.
+Data Storage: All data is stored in an SQLite database.
+Database Structure: There are two tables: managers and musicians, where each musician is associated with a manager via manager_id.
 Project Structure
-plaintext
-Copy
-.
-├── manager.py
-└── musicians.db
-manager.py (CLI Script)
-The manager.py file is the core of the project. It provides the CLI through which the user can interact with the application, execute commands, and manage the data. This script includes functions for creating and deleting managers and musicians, viewing the records, and searching for data in the SQLite database.
+The project consists of the following Python files:
 
-CLI Functions
-create_manager(name, age)
-
-Inserts a new manager record into the managers table with the given name and age.
-create_musician(name, age, instrument, category, manager_id)
-
-Inserts a new musician record into the musicians table. The musician is associated with a manager by the manager_id.
-view_all_managers()
-
-Displays all managers stored in the managers table.
-view_all_musicians()
-
-Displays all musicians stored in the musicians table.
-find_manager_by_name(name)
-
-Finds and displays a manager's details based on the provided name.
-find_musician_by_name(name)
-
-Finds and displays musicians whose names match the provided input. It performs a partial search, allowing the user to input only a portion of the name.
-view_musicians_by_manager(manager_id)
-
-Lists all musicians associated with a specific manager, using the manager_id.
-delete_manager(name)
-
-Deletes a manager from the database by their name.
-delete_musician(name)
-
-Deletes a musician from the database by their name.
-cli()
-
-The main CLI loop where the user is presented with a menu of options. The user selects an action (such as creating a manager, creating a musician, viewing data, etc.) and the corresponding function is called to execute the action.
-Example of usage in the CLI:
+manager.py: Contains functions for managing managers (add, delete, view, etc.).
+musician.py: Contains functions for managing musicians (add, delete, view, etc.).
+helpers.py: Contains helper functions to format manager and musician data for display.
+cli.py: Main entry point for the command-line interface. Contains the logic for interacting with the user and calling functions from manager.py, musician.py, and helpers.py.
+create_tables.py: Contains code to set up the SQLite database with managers and musicians tables.
+Installation
+Clone the repository:
 
 bash
-Copy
+Copy code
+git clone <repository-url>
+cd <repository-name>
+Install required dependencies: This project uses Python’s built-in sqlite3 module, so no additional dependencies are required. However, ensure you have Python 3 installed on your machine.
+
+Set up the database: Run the following command to create the necessary tables in the SQLite database:
+
+bash
+Copy code
+python create_tables.py
+Run the CLI: To start using the application, run the following command:
+
+bash
+Copy code
+python cli.py
+Usage
+Once the application is running, the CLI will present you with a menu of options. You can:
+
+Manage Managers: Create, view, find, and delete managers.
+Manage Musicians: Create musicians, view all musicians, view musicians by manager, find musicians by name, and delete musicians.
+Example CLI Workflow
+Manage Managers:
+
+To create a new manager, select option 1 and input the manager's name and age.
+To view all managers, select option 2.
+To delete a manager, select option 4 and provide the manager's name.
+Manage Musicians:
+
+To create a new musician, select option 1, and input the musician's information, including the manager they are associated with.
+To view all musicians, select option 2.
+To view musicians by manager, select option 3 and provide the manager's ID.
+To delete a musician, select option 5 and provide the musician's name.
+Sample CLI Interaction:
+bash
+Copy code
 === Musician Manager CLI ===
-1. Create Manager
-2. Create Musician
-3. View All Managers
-4. View All Musicians
-5. View Musicians by Manager
-6. Find Manager by Name
-7. Find Musician by Name
-8. Delete Manager
-9. Delete Musician
+1. Manage Managers
+2. Manage Musicians
 0. Exit
 Choose an option: 1
-Enter manager's name: John Doe
-Enter manager's age: 45
-musicians.db (Database File)
-This is the SQLite database where all data (managers and musicians) are stored. It contains two tables:
 
-managers Table:
+=== Manage Managers ===
+1. Create Manager
+2. View All Managers
+3. Find Manager by Name
+4. Delete Manager
+0. Back to Main Menu
+Choose an option: 1
+Enter manager's name: Phil
+Enter manager's age: 30
+Manager Phil added successfully.
 
-id: Unique identifier for the manager.
-name: The manager's name.
-age: The manager's age.
-musicians Table:
+=== Musician Manager CLI ===
+1. Manage Managers
+2. Manage Musicians
+0. Exit
+Choose an option: 2
 
-id: Unique identifier for the musician.
-name: The musician's name.
-age: The musician's age.
-instrument: The instrument the musician plays.
-category: The musical category or section the musician belongs to (e.g., strings, percussion).
-manager_id: Foreign key referencing the id of the manager who manages the musician.
-Detailed Description of Functions
-Manager Functions
-create_manager(name, age)
+=== Manage Musicians ===
+1. Create Musician
+2. View All Musicians
+3. View Musicians by Manager
+4. Find Musician by Name
+5. Delete Musician
+0. Back to Main Menu
+Choose an option: 1
+Enter the manager's ID for this musician: 1
+Enter musician's name: Jill
+Enter musician's age: 25
+Enter musician's instrument: Guitar
+Enter musician's category: Rock
+Musician Jill added successfully under manager ID 1.
+Database Structure
+Managers Table
+id: INTEGER (Primary Key, Auto-Increment)
+name: TEXT (Manager's name)
+age: INTEGER (Manager's age)
+Musicians Table
+id: INTEGER (Primary Key, Auto-Increment)
+name: TEXT (Musician's name)
+age: INTEGER (Musician's age)
+instrument: TEXT (Musician's instrument)
+category: TEXT (Musician's category)
+manager_id: INTEGER (Foreign Key, references managers(id))
+File Descriptions
+manager.py
+Contains functions for managing managers:
 
-Inserts a manager into the managers table.
-Arguments:
-name: A string representing the manager's name.
-age: An integer representing the manager's age.
-delete_manager(name)
+create_manager(name, age): Creates a new manager.
+view_all_managers(): Returns all managers.
+find_manager_by_name(name): Finds a manager by name.
+delete_manager(name): Deletes a manager by name.
+musician.py
+Contains functions for managing musicians:
 
-Deletes a manager by their name.
-Arguments:
-name: A string representing the manager's name to be deleted.
-find_manager_by_name(name)
+create_musician(name, age, instrument, category, manager_id): Creates a new musician.
+view_all_musicians(): Returns all musicians.
+view_musicians_by_manager(manager_id): Returns musicians associated with a specific manager.
+find_musician_by_name(name): Finds musicians by name.
+delete_musician(name): Deletes a musician by name.
+helpers.py
+Contains helper functions:
 
-Fetches a manager’s details based on the input name.
-Arguments:
-name: A string representing the manager's name.
-view_all_managers()
+format_manager(manager): Formats a manager for display.
+format_musician(musician): Formats a musician for display.
+cli.py
+Contains the main menu and logic for interacting with the user. It calls functions from manager.py, musician.py, and helpers.py to allow the user to perform operations in the app.
 
-Retrieves and displays all managers in the managers table.
-Musician Functions
-create_musician(name, age, instrument, category, manager_id)
+create_tables.py
+Contains the SQL commands to create the managers and musicians tables in the SQLite database.
 
-Adds a musician to the musicians table.
-Arguments:
-name: A string representing the musician’s name.
-age: An integer representing the musician’s age.
-instrument: A string representing the instrument the musician plays.
-category: A string representing the category the musician falls under (e.g., strings, percussion).
-manager_id: The ID of the manager associated with the musician.
-delete_musician(name)
-
-Deletes a musician by their name.
-Arguments:
-name: A string representing the musician's name to be deleted.
-find_musician_by_name(name)
-
-Searches and retrieves musicians whose names match the input string.
-Arguments:
-name: A string representing the musician’s name or part of the name for a partial match.
-view_musicians_by_manager(manager_id)
-
-Displays all musicians that are managed by a specific manager, identified by the manager_id.
-Arguments:
-manager_id: An integer representing the ID of the manager.
-view_all_musicians()
-
-Displays all musicians from the musicians table.
-Setting Up and Running the Application
-Clone the repository to your local machine:
-
-bash
-Copy
-git clone https://github.com/yourusername/musician-manager-cli.git
-Change into the project directory:
-
-bash
-Copy
-cd musician-manager-cli
-Set up a virtual environment (optional but recommended):
-
-bash
-Copy
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-Run the application:
-
-bash
-Copy
-python manager.py
+Contributing
+Feel free to open issues or submit pull requests if you find bugs or want to suggest improvements.
 
 License
-This project is licensed under the MIT License – see the LICENSE file for details.
+This project is open source and available under the MIT License.

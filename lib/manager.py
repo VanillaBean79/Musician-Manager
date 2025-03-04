@@ -5,7 +5,8 @@ def get_connection():
     return sqlite3.connect('musicians.db')
 
 class Manager:
-    def __init__(self, name, age):
+    def __init__(self, name, age, id=None):
+        self.id = id
         self.name = name
         self.age = age
 
@@ -59,5 +60,5 @@ def delete_manager(name):
     conn.close()  
 
 
-# manager1 = Manager("Phil", 23)
-# create_manager(manager1.name, manager1.age)
+manager1 = Manager("Jill", 43)
+create_manager(manager1.name, manager1.age)
