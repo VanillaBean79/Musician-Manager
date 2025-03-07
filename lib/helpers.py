@@ -2,8 +2,8 @@
 
 
 def format_manager(manager):
-    return f"Manager: {manager[1]}, Age: {manager[2]}"
+    return f"Manager: {manager.name}, Age: {manager.age}"
 
 
 def format_musician(musician):
-    return f"Musician: {musician[1]}, Age: {musician[2]}, Instrument: {musician[3]}, Category: {musician[4]}"
+    return f"Musician: {musician.name}, Age: {musician.age}, Instrument: {musician.instrument}, Category: {musician.category}"

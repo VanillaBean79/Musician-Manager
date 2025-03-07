@@ -1,7 +1,7 @@
 # cli.py
 
-from manager import create_manager, view_all_managers, find_manager_by_name, delete_manager
-from musician import create_musician, view_all_musicians, view_musicians_by_manager, find_musician_by_name, delete_musician
+from manager import Manager
+from musician import Musician
 from helpers import format_manager, format_musician
 
 
@@ -68,11 +68,11 @@ def manage_managers():
         if choice == '1':
             name = input("Enter manager's name: ")
             age = int(input("Enter manager's age: "))
-            create_manager(name, age)
+            Manager.create(name, age)
 
         elif choice == '2':
             print("\n--- All Managers ---")
-            managers = view_all_managers()
+            managers = Manager.get_all()
             if managers:
                 for i, manager in enumerate(managers, start=1):
                     print(f"{i}. {format_manager(manager)}")
@@ -81,7 +81,7 @@ def manage_managers():
 
         elif choice == '3':
             name = input("Enter manager's name: ")
-            manager = find_manager_by_name(name)
+            manager = Manager.find_by_name(name)
             if manager:
                 print(format_manager(manager))
             else:
@@ -89,7 +89,12 @@ def manage_managers():
 
         elif choice == '4':
             name = input("Enter manager's name: ")
-            delete_manager(name)
+            manager = Manager.find_by_name(name)
+            if manager:
+                manager.delete()
+                print(f"Manager {name} has been deleted.")
+            else:
+                print(f"Manager with name {name} not found.")
 
         elif choice == '0':
             break
@@ -115,7 +120,7 @@ def manage_musicians():
 
         elif choice == '2':
             print("\n--- All Musicians ---")
-            musicians = view_all_musicians()
+            musicians = Musician.get_all()
             if musicians:
                 for i, musician in enumerate(musicians, start=1):
                     print(f"{i}. {format_musician(musician)}")
@@ -124,11 +129,11 @@ def manage_musicians():
 
         elif choice == '3':
             print("\n--- Available Managers ---")
-            managers = view_all_managers()
+            managers = Manager.get_all()
             for i, manager in enumerate(managers, start=1):
                 print(f"{i}. {format_manager(manager)}")
             manager_id = int(input("Enter manager's ID to view their musicians: "))
-            musicians = view_musicians_by_manager(manager_id)
+            musicians = Musician.view_by_manager(manager_id)
             if musicians:
                 for i, musician in enumerate(musicians, start=1):
                     print(f"{i}. {format_musician(musician)}")
@@ -137,7 +142,7 @@ def manage_musicians():
 
         elif choice == '4':
             name = input("Enter musician's name: ")
-            musicians = find_musician_by_name(name)
+            musicians = name(name)
             if musicians:
                 for musician in musicians:
                     print(format_musician(musician))
@@ -146,7 +151,12 @@ def manage_musicians():
 
         elif choice == '5':
             name = input("Enter musician's name: ")
-            delete_musician(name)
+            musician = Musician.name(name)
+            if musician:
+                musician.delete()
+                print(f"Musician {name} has been deleted.")
+            else:
+                print(f"Musician can't be found.")
 
         elif choice == '0':
             break
@@ -157,7 +167,7 @@ def manage_musicians():
 
 def create_musician_flow():
     print("\n--- Available Managers ---")
-    managers = view_all_managers()
+    managers = Manager.get_all()
     for i, manager in enumerate(managers, start=1):
         print(f"{i}. {format_manager(manager)}")
     manager_id = int(input("Enter the manager's ID for this musician: "))
@@ -167,7 +177,7 @@ def create_musician_flow():
     instrument = input("Enter musician's instrument: ")
     category = input("Enter musician's category: ")
 
-    create_musician(name, age, instrument, category, manager_id)
+    Musician.create(name, age, instrument, category, manager_id)
     print(f"{name} has been added as a musician under manager ID {manager_id}.")
 
 
