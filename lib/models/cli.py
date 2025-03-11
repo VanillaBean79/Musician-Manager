@@ -45,9 +45,9 @@ def managers():
                     print(f"{i}. Manager: {manager.name}, Age: {manager.age} years old., ID: {manager.id}")
 
                 
-                action_choice = input("\nWould you like to delete or create a manager? (delete/create): ")
+                action_choice = input("\nWould you like to delete, create, or move on to the next option? (D/C/0): ")
 
-                if action_choice.lower() == 'delete':
+                if action_choice.lower() == 'D':
                     manager_id_input = input("Please enter the ID of the manager you want to delete: ")
 
                     try:
@@ -64,46 +64,62 @@ def managers():
                     except ValueError:
                         print("Invalid ID entered. Deletion canceled.")
 
-                elif action_choice.lower() == 'create':
+                elif action_choice.lower() == 'C':
                     
                     print("\nYou chose to create a new manager.")
                     manager_name = input("Enter the new manager's name: ")
 
-                    while True:
-                        try:
-                            manager_age = int(input("Enter the new manager's age: "))
-                            break  
-                        except ValueError:
-                            print("Invalid input! Please enter a valid integer for age.")
                     
                     try:
+                        manager_age = int(input("Enter the new manager's age: "))
+                             
+                    except ValueError:
+                        print("Invalid input! Please enter a valid integer for age.")
+                    
+                    try:
+                        
                         new_manager = Manager.create(manager_name, manager_age)
                         print(f"New manager {manager_name} has been created successfully.")
                     except Exception as e:
                         print(f"An error occurred while creating the manager: {e}")
 
-                else:
-                    print("Invalid choice. Please choose 'delete' or 'create'.")
-
-                manager_choice = int(input("Choose a manager by number to view their musicians (0 to go back): "))
-
-                if manager_choice == 0:
+                elif action_choice == '0':
+                    print("Moving on to the next option.")
+                    
                     continue  
 
+                else:
+                    print("Invalid choice. Please choose 'delete', 'create', or '0'.")
                 
-                if 1 <= manager_choice <= len(managers):
-                    selected_manager = managers[manager_choice - 1]  
-                    print(f"\nShowing musicians for {selected_manager.name}:")
-                    musicians = Musician.view_by_manager_id(selected_manager.id)
-
-                    if musicians:
-                        for i, musician in enumerate(musicians, start=1):
-                            print(f"{i}. {format_musician(musician)}")
-                    else:
-                        print(f"No musicians found for {selected_manager.name}.")
             else:
                 print("No managers found.")
 
+            
+            
+                manager_choice = input("\nChoose a manager by number to view their musicians (0 to go back): ")
+
+                if manager_choice == '0':
+                    continue
+
+                
+                try:
+                    manager_choice = int(manager_choice)
+                    if 1 <= manager_choice <= len(managers):
+                        selected_manager = managers[manager_choice - 1]  
+                        print(f"\nShowing musicians for {selected_manager.name}:")
+                        musicians = Musician.view_by_manager_id(selected_manager.id)
+
+                        if musicians:
+                            for i, musician in enumerate(musicians, start=1):
+                                print(f"{i}. {format_musician(musician)}")
+                        else:
+                            print(f"No musicians found for {selected_manager.name}.")
+                         
+                    else:
+                        print("Invalid manager number. Please try again.")
+                except ValueError:
+                    print("Invalid input. Please enter a valid manager number.")
+            
         elif choice == '2':
             
             name = input("Enter manager's name: ")
@@ -171,9 +187,6 @@ def managers():
             break
         else:
             print("Invalid option. Please try again.")
-
-
-
 
 
 
