@@ -1,9 +1,15 @@
-from models.__init__ import CONN, CURSOR
-from models.musician import Musician 
-from models.manager import Manager
+from __init__ import CONN, CURSOR
+from musician import Musician 
+from manager import Manager
 
 def seed_database():
-    pass
+    manager = [
+        ("Juan Doe", 30)
+    ]
+
+    for name, age in manager:
+        Manager.create(name, age)
+
 
 print("database seeded!")
 seed_database()

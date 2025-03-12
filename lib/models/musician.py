@@ -5,6 +5,9 @@ from manager import Manager
 
 
 class Musician:
+
+    
+    
     all = {}
     
     def __init__(self, name, age, instrument, category, manager_id, id = None):
@@ -114,9 +117,9 @@ class Musician:
         CURSOR.execute(sql, (self.name, self.age, self.instrument, self.category, self.manager_id))
         CONN.commit()
 
-        self.id = CURSOR.lastrowid #This will set the musician id to the generated id in SQL.  
+        self.id = CURSOR.lastrowid 
         
-        type(self).all[self.id] = self  #Adds a new musician to the dictonary.
+        type(self).all[self.id] = self  
 
     def update(self):
         """Update the tabel row corresponding t the 
@@ -127,7 +130,7 @@ class Musician:
         WHERE id = ?
         """
         CURSOR.execute(sql, (self.name, self.age, self.instrument,
-                             self.category, self.manager_id))
+                             self.category, self.manager_id, self.id))
         CONN.commit()
 
     def delete(self):
@@ -223,3 +226,4 @@ class Musician:
     
 
 Musician.create_table()
+# Musician.create("Daniel Vegas", 40, "Bass Guitar", "Rhythm Section", 1)

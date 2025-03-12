@@ -41,7 +41,7 @@ class Manager:
     @classmethod
     def create_table(cls):
         """Create a new table to persist the attribute of Manager instances"""
-    print("Creating managers table...")  # Debugging line
+    print("Creating managers table...")  
     sql = """
     CREATE TABLE IF NOT EXISTS managers (
         id INTEGER PRIMARY KEY,
@@ -50,11 +50,11 @@ class Manager:
     """
     CURSOR.execute(sql)
     CONN.commit()
-    print("Managers table created.")  # Debugging line
+    print("Managers table created.")  
 
 
     @classmethod
-    def drop_tables(cls):
+    def drop_table(cls):
        """Drop the table that persist
          Manager instance."""
        sql = """
@@ -62,6 +62,7 @@ class Manager:
         """
        CURSOR.execute(sql)
        CONN.commit()
+       print("Managers table dropped.")
 
     def save(self):
         """Save the manager to the database."""
@@ -99,7 +100,7 @@ class Manager:
         SET name = ?, age = ?
         WHERE id = ?
         """
-        CURSOR.execute(sql, (self.name, self.age))
+        CURSOR.execute(sql, (self.name, self.age, self.id))
         CONN.commit()
 
     def delete(self):
@@ -181,4 +182,5 @@ class Manager:
 
 Manager.create_table()
 
-
+new_manager = ("Frank Century", 45)
+# Manager.create("Frank Century", 45)
