@@ -23,10 +23,20 @@ def view_all_managers():
                 
 
 def find_manager_by_name():
-    name = input("Enter the manager's name:")
+    name = input("Enter the manager's name: ")
     manager = Manager.find_by_name(name)
-    print(manager) if manager else print(
-        f"Manager {name} not found")
+    
+    if manager:
+        print(f"\n<Name: {manager.name} Age: {manager.age}>")
+        
+        action_choice = input("See assigned musicians. (y/n): ")
+        
+        if action_choice.lower() == 'y':
+            
+            list_musicians(manager_id) 
+    else:
+        print(f"Manager '{name}' not found.")
+
     
 
 def find_manager_by_id():
@@ -104,8 +114,30 @@ def delete_manager(manager):
 
 
 
-def list_musicians():
-    pass
+def list_musicians(manager_id):
+    """Fetch and list musicians assigned to the specified manager."""
+
+    musicians = Musician.view_by_manager_id(manager_id)  # Fetch musicians for the given manager_id
+        
+    if musicians:
+            # Enumerate and list musicians
+        for i, musician in enumerate(musicians, start=1):
+            print(f"{i}. {musician.name}, {musician.instrument}, {musician.category}")
+    else:
+        print("No musicians found for this manager.")
+       
+
+        
+
+
+manager_id = 1
+# list_musicians(manager_id)
+print(list_musicians(manager_id))    
+        
+           
+                
+
+
         
 
 
