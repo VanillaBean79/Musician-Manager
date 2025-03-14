@@ -27,11 +27,7 @@ def find_manager_by_name():
     manager = Manager.find_by_name(name)
     
     if manager:
-        print(f"\n<Name: {manager.name} Age: {manager.age}>")
-        
-        action_choice = input("See assigned musicians. (y/n): ")
-        if action_choice.lower() == 'y':
-            list_musicians(manager.id)  # Use manager.id directly here, no need for manager_id
+        print(f"\n<Name: {manager.name} Age: {manager.age}>")  # Check manager.id
     else:
         print(f"Manager '{name}' not found.")
 
@@ -75,35 +71,31 @@ def create_manager():
     print(f"Manager: {new_manager.name} (age: {new_manager.age}) has been created successfully.")
 
 
-def update_manager(manager):
-    try:
-        name = input(f"Enter the manager's new name (current: {manager.name}): ")
-        if name:
-            manager.name = name  
-
-        # Ask the user for a new age, and only update if the user provides a valid one
-        age_input = input(f"Enter the manager's new age (current: {manager.age}): ")
-        if age_input: 
-            try:
-                age = int(age_input)
-                if age > 0 and age < 120:
-                    manager.age = age
-                else:
-                    print("Please enter a valid age between 1 and 119.")
-                    return  
-            except ValueError:
-                print("Please enter a valid integer for age.")
-                return  # Exit the function if the age input is not an integer
-
-        # After all inputs, save the updated manager object
-        manager.save()
-        print(f"Success: Manager {manager.name} updated.")
-    except Exception as exc:
-        print(f"Error updating manager: {exc}")
+def update_manager():
+    name = input("Enter managers name:")
+    if manager := Manager.find_by_name(name):
+       new_name = input(f"Enter the manager's new name:")
+       if new_name:
+           manager.name = new_name
+       new_age_input = input(f"Enter manager's new age:")
+       if new_age_input:
+           try:
+               new_age = int(new_age_input)
+               if 10 <= new_age <= 120:
+                   manager.age = new_age
+               else:
+                   print("Please enter a valid number.")
+                   return
+           except ValueError:
+               print("Age must be an integer.")
+                
+    manager.update()
+    print(f"\n Success! {manager}\n")
 
 
-def delete_manager(manager_id):
-    manager = Manager.find_by_id(manager_id)
+def delete_manager():
+    name = input("Enter the name of the manager.")
+    manager = Manager.find_by_name(name)
     """Delete the selected manager."""
     if manager:
         print(f"You have selected to delete the following manager: {format_manager(manager)}")
@@ -120,17 +112,17 @@ def delete_manager(manager_id):
 
 
 def list_musicians(manager_id):
-
     """Fetch and list musicians assigned to the specified manager."""
-    print(f"Manager ID: {manager_id} (Type: {type(manager_id)})")  # Debugging to check type
-    musicians = Musician.view_by_manager_id(manager_id)  # Fetch musicians for the given manager_id
+    # Fetch musicians for the given manager_id
+    musicians = Musician.view_by_manager_id(manager_id)
         
     if musicians:
-            # Enumerate and list musicians
+        # Enumerate and list musicians
         for i, musician in enumerate(musicians, start=1):
             print(f"{i}. {musician.name}, {musician.instrument}, {musician.category}")
     else:
         print("No musicians found for this manager.")
+
 
 
 # Test calls

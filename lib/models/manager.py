@@ -159,7 +159,7 @@ class Manager:
         """
         sql = """
         SELECT * FROM managers
-        WHERE name is ? 
+        WHERE name = ? 
         """
         row = CURSOR.execute(sql, (name,)).fetchone()
         return cls.instance_from_db(row) if row else None
@@ -181,6 +181,5 @@ class Manager:
 
 
 Manager.create_table()
+# Manager.create("Bobby Keys", 66)
 
-new_manager = ("Frank Century", 45)
-# Manager.create("Frank Century", 45)

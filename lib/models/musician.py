@@ -2,7 +2,8 @@ import sqlite3
 
 from __init__ import CURSOR, CONN
 from manager import Manager
-
+conn = sqlite3.connect('musicians.db')
+CURSOR = conn.cursor()
 
 class Musician:
 
@@ -156,26 +157,25 @@ class Musician:
     
     @classmethod
     def instance_from_db(cls, row):
-        """Return a musician object having the attribute
-        values from the table row."""
-        
-        # Check the dictionary for existing instance using the row's primary key (ID)
+        """Return a musician object having the attribute values from the table row."""
+    # Check the dictionary for existing instance using the row's primary key (ID)
         musician = cls.all.get(row[0])
-        
+    
         if musician:
-            # Ensure attributes match row values in case the local instance was modified.
+        # Ensure attributes match row values in case the local instance was modified.
             musician.name = row[1]
             musician.age = row[2]
             musician.instrument = row[3]
             musician.category = row[4]
             musician.manager_id = row[5]
         else:
-            # Not in dictionary, create new instance and add to dictionary
+        # Not in dictionary, create new instance and add to dictionary
             musician = cls(row[1], row[2], row[3], row[4], row[5])
             musician.id = row[0]
             cls.all[musician.id] = musician
-        
-        return musician
+    
+            return musician
+
 
     @classmethod
     def get_all(cls):
@@ -216,6 +216,7 @@ class Musician:
     def view_by_manager_id(cls, manager_id):
         """Return a list of musicians rows and attributes
         assigned to a manager"""
+    
         sql = """
         SELECT * FROM musicians
         WHERE manager_id = ?
@@ -226,6 +227,5 @@ class Musician:
     
 
 Musician.create_table()
-manager_id = 4
-Musician.view_by_manager_id(manager_id)
-# Musician.create("Daniel Vegas", 40, "Bass Guitar", "Rhythm Section", 1)
+# manager_id = 1
+Musician.create("Johnny Rocket", 25, "Electric Guitar", "Rhythm Section", 4)
