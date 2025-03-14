@@ -20,7 +20,7 @@ def view_all_managers():
     if managers:
         for i, manager in enumerate(managers, start=1):
             print(f"{i}. Manager: {manager.name}, Age: {manager.age} years old.")
-                
+
 
 def find_manager_by_name():
     name = input("Enter the manager's name: ")
@@ -31,24 +31,34 @@ def find_manager_by_name():
         
         action_choice = input("See assigned musicians. (y/n): ")
         if action_choice.lower() == 'y':
-            list_musicians(manager_id) 
+            list_musicians(manager.id)  # Use manager.id directly here, no need for manager_id
     else:
         print(f"Manager '{name}' not found.")
 
-    
+        
+        
+
 
 def find_manager_by_id():
     managers = Manager.get_all()
     print("Managers List:")
     for i, manager in enumerate(managers, start=1):
         print(f"{i}. Manager: {manager.name}.")
+    while True:
+        try:
+            selected_index = int(input("Enter the number corresponding to the manager."))
+            if 1 <= selected_index <= len(managers):
+                selected_manager = managers[selected_index -1]
+                print(f"Selected Manager: {selected_manager.name}.")
+                break
+            else:
+                print("Manager not found with that ID.")
+        except ValueError:
+            print("Invalid input.")
 
-    id_ = int(input("Enter the manager's ID:"))
-    selected_manager = Manager.find_by_id(id_)
-    if selected_manager:
-        print(f"Selected Manager: {selected_manager.name}")
-    else:
-        print("Manager not found with that ID.")
+
+
+    
 
 
 def create_manager():
@@ -92,9 +102,8 @@ def update_manager(manager):
         print(f"Error updating manager: {exc}")
 
 
-
-
-def delete_manager(manager):
+def delete_manager(manager_id):
+    manager = Manager.find_by_id(manager_id)
     """Delete the selected manager."""
     if manager:
         print(f"You have selected to delete the following manager: {format_manager(manager)}")
@@ -110,11 +119,10 @@ def delete_manager(manager):
         print("No manager selected for deletion.")
 
 
-
-
 def list_musicians(manager_id):
-    """Fetch and list musicians assigned to the specified manager."""
 
+    """Fetch and list musicians assigned to the specified manager."""
+    print(f"Manager ID: {manager_id} (Type: {type(manager_id)})")  # Debugging to check type
     musicians = Musician.view_by_manager_id(manager_id)  # Fetch musicians for the given manager_id
         
     if musicians:
@@ -123,21 +131,40 @@ def list_musicians(manager_id):
             print(f"{i}. {musician.name}, {musician.instrument}, {musician.category}")
     else:
         print("No musicians found for this manager.")
-       
-
-        
 
 
-manager_id = 1
-# list_musicians(manager_id)
-print(list_musicians(manager_id))    
-        
-           
-                
+# Test calls
+
+# Testing view_all_managers
+# print("Testing view_all_managers()...\n")
+# view_all_managers()
 
 
-        
+# print("\nTesting find_manager_by_name()...\n")
 
+# find_manager_by_name()
+
+# # Testing create_manager
+# print("\nTesting create_manager()...\n")
+# create_manager()
+
+# # Testing update_manager
+# print("\nTesting update_manager()...\n")
+# # Here, you would need to mock a manager object. Assuming a mock manager is used here.
+# mock_manager = Manager.find_by_id(4)  # Assuming this returns a manager
+# update_manager(mock_manager)
+
+# Testing delete_manager
+# print("\nTesting delete_manager()...\n")
+# # Assuming mock manager
+# delete_manager()
+
+# Testing list_musicians
+# print("\nTesting list_musicians()...\n")
+# # Testing with manager ID 4
+# list_musicians()
+
+# find_manager_by_id()
 
 
 

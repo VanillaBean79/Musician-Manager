@@ -141,13 +141,13 @@ class Manager:
         return [cls.instance_from_db(row) for row in rows]
 
     @classmethod
-    def find_by_id(cls, id):
+    def find_by_id(cls, id_):
         """Find and return the first manager matching the given name."""
         sql = """
             SELECT * FROM managers
-            WHERE name = ?
+            WHERE id = ?
         """
-        row = CURSOR.execute(sql, (id,)).fetchone()
+        row = CURSOR.execute(sql, (id_,)).fetchone()
         if row:
             return cls.instance_from_db(row)
         return None

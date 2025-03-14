@@ -226,4 +226,6 @@ class Musician:
     
 
 Musician.create_table()
+manager_id = 4
+Musician.view_by_manager_id(manager_id)
 # Musician.create("Daniel Vegas", 40, "Bass Guitar", "Rhythm Section", 1)
