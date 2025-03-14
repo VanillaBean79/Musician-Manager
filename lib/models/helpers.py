@@ -30,9 +30,7 @@ def find_manager_by_name():
         print(f"\n<Name: {manager.name} Age: {manager.age}>")
         
         action_choice = input("See assigned musicians. (y/n): ")
-        
         if action_choice.lower() == 'y':
-            
             list_musicians(manager_id) 
     else:
         print(f"Manager '{name}' not found.")

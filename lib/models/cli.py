@@ -43,6 +43,10 @@ def managers():
             print("\n--- Manager ---")
             find_manager_by_name()
             
+            # action_choice == 'c':
+
+            
+            
 
         elif choice == '2':
             print("\nAll Managers")
