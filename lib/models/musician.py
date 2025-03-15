@@ -156,26 +156,22 @@ class Musician:
         musician.save()
         return musician 
     
+
     @classmethod
     def instance_from_db(cls, row):
-        """Return a musician object having the attribute values from the table row."""
-    # Check the dictionary for existing instance using the row's primary key (ID)
+        """ Return a Musician object """
         musician = cls.all.get(row[0])
-    
         if musician:
-        # Ensure attributes match row values in case the local instance was modified.
             musician.name = row[1]
             musician.age = row[2]
             musician.instrument = row[3]
             musician.category = row[4]
-            musician.manager_id = row[5]
+            musician.manger_id = row[5]
         else:
-        # Not in dictionary, create new instance and add to dictionary
             musician = cls(row[1], row[2], row[3], row[4], row[5])
             musician.id = row[0]
             cls.all[musician.id] = musician
-    
-            return musician
+        return musician
 
 
     @classmethod
@@ -208,7 +204,7 @@ class Musician:
         """Return a musician object and it's row of attributes."""
         sql = """
             SELECT * FROM musicians
-            WHERE name is ?
+            WHERE name = ?
             """
         row = CURSOR.execute(sql, (name,)).fetchone()
         return cls.instance_from_db(row) if row else None

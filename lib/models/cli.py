@@ -50,6 +50,8 @@ def cli():
             elif musician_action_choice == '3':
                 update_musician()
 
+            
+
 
 
 def managers():

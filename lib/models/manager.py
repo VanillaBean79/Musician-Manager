@@ -110,8 +110,6 @@ class Manager:
         WHERE id = ?"""
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
-
-        # Remove the manager instance from the `all` dictionary
         del type(self).all[self.id]
         self.id = None
 
@@ -123,8 +121,8 @@ class Manager:
         if manager:
             manager.age = row[2]
         else:
-            # If instance doesn't exist, create a new one
-            manager = cls(row[1], row[2], id=row[0])  # Ensure the id is passed correctly
+            
+            manager = cls(row[1], row[2], id=row[0])  
             cls.all[manager.id] = manager
         
         return manager

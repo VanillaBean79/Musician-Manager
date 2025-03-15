@@ -144,24 +144,19 @@ def delete_musician():
 
 
 def update_musician():
-    # Get the musician's name to search
+    
     name = input("Enter musician's name: ")
-    
-    # Assuming Musician.name(name) returns a Musician object or None if not found
-    musician = Musician.name(name)  # Store the result of the search
-    
+    musician = Musician.name(name)  
     if musician is None:
         print(f"Musician with the name '{name}' not found.")
-        return  # Exit the function early if no musician was found
+        return  
     
-    # Now that we know musician is not None, proceed with the update process
-    
-    # Update musician's name
+
     new_name = input(f"Enter the musician's new name (or press Enter to keep the same): ")
     if new_name:
         musician.name = new_name
     
-    # Update musician's age
+    
     new_age_input = input(f"Enter musician's new age (or press Enter to keep the same): ")
     if new_age_input:
         try:
@@ -175,39 +170,43 @@ def update_musician():
             print("Age must be an integer.")
             return
     
-    # Update musician's instrument
     new_instrument = input(f"Enter the musician's new instrument (or press Enter to keep the same): ")
     if new_instrument:
         musician.instrument = new_instrument
     
-    # Update musician's category
     new_category = input(f"Enter the musician's new category (or press Enter to keep the same): ")
     if new_category:
         musician.category = new_category
     
-    # Update musician's manager_id
     new_manager_id = input(f"Enter the musician's new manager ID (or press Enter to keep the same): ")
     if new_manager_id:
         try:
-            new_manager_id = int(new_manager_id)  # Convert input to integer
-            musician.manager_id = new_manager_id  # This will call the setter
+            new_manager_id = int(new_manager_id)  
+            musician.manager_id = new_manager_id  
         except ValueError:
             print("Manager ID must be an integer.")
             return
     
-    # If you've made it here, it means the musician has been updated successfully
     print("Musician details updated successfully.")
-    musician.update()  # Now we can call update on the musician object
+    musician.update() 
 
 
 
 
 
 def get_all_musicians():
-        musicians = Musician.get_all()
-        if musicians:
-         for i, musicians in enumerate(musicians, start=1):
-            print(f"{i}. Manager: {musicians.name}, Age: {musicians.age} years old. Instrument: {musicians.instrument}, category: {musicians.category}, manager_id: {musicians.manager_id}.")
+    musicians = Musician.get_all()
+    if musicians:
+        for i, musician in enumerate(musicians, start=1):
+            if musician:  # Ensure musician is not None
+                print(f"{i}. Musician: {musician.name}, Age: {musician.age} years old. "
+                      f"Instrument: {musician.instrument}, category: {musician.category}, "
+                      f"manager_id: {musician.manager_id}.")
+            else:
+                print(f"{i}. Musician data is incomplete or invalid.")
+    else:
+        print("No musicians found.")
+
 
 
 
