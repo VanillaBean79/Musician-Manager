@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # lib/debug.py
 
-from __init__ import CONN, CURSOR
-from musician import Musician 
-from manager import Manager
+# from models.__init__ import CONN, CURSOR
+from models.musician import Musician 
+from models.manager import Manager
 
 def reset_database():
     """

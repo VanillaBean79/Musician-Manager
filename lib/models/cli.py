@@ -1,5 +1,5 @@
 # cli.py
-
+# from models.__init__ import CURSOR, CONN
 from manager import Manager
 from musician import Musician
 from helpers import (
@@ -23,7 +23,7 @@ def cli():
     while True:
         print("\n=== Musician Manager CLI ===")
         print("1. Managers")
-        print("2. View All Musicians")
+        print("2. Musicians")
        
         choice = input("Choose an option: ")
 
