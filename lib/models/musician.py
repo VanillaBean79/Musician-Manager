@@ -2,8 +2,6 @@ import sqlite3
 
 from __init__ import CURSOR, CONN
 from manager import Manager
-conn = sqlite3.connect('musicians.db')
-CURSOR = conn.cursor()
 
 class Musician:
 
@@ -68,12 +66,10 @@ class Musician:
         return self._manager_id
     
     @manager_id.setter
-    def manager_id(self, manager_id):
-        if isinstance(manager_id, int) and 1 <= manager_id <= 500:
-            self._manager_id = manager_id
-        else:
-            raise ValueError(f"Manager id must be an integer.")
-
+    def manager_id(self, value):
+        if not isinstance(value, int):
+            raise ValueError("Manager id must be an integer.")
+        self._manager_id = value
     def __repr__(self):
         return f"<Name: {self.name} Instrument: {self.instrument} Age: {self.age} Category: {self.category} Manager ID: {self.manager_id}>"
     
@@ -151,6 +147,11 @@ class Musician:
     @classmethod
     def create(cls, name, age, instrument, category, manager_id):
         """Initialize new musician"""
+        try:
+            manager_id = int(manager_id)  # Convert the manager_id to an integer
+        except ValueError:
+            raise ValueError("Manager id must be an integer.")  # Raise an error if conversion fails
+    
         musician = cls(name, age, instrument, category, manager_id)
         musician.save()
         return musician 
@@ -226,6 +227,10 @@ class Musician:
         return [cls.instance_from_db(row) for row in rows]
     
 
+
+
+    
+
 Musician.create_table()
 # manager_id = 1
-Musician.create("Johnny Rocket", 25, "Electric Guitar", "Rhythm Section", 4)
+# Musician.create("Johnny Rocket", 25, "Electric Guitar", "Rhythm Section", 2)

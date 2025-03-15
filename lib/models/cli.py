@@ -7,11 +7,14 @@ from helpers import (
     format_musician,
     view_all_managers,
     find_manager_by_name,
-    find_manager_by_id,
+    delete_musician,
+    update_musician,
     create_manager,
     update_manager,
     delete_manager,
-    list_musicians)
+    list_managers_musicians,
+    get_all_musicians,
+    create_musician)
 
 
 
@@ -20,6 +23,7 @@ def cli():
     while True:
         print("\n=== Musician Manager CLI ===")
         print("1. Managers")
+        print("2. View All Musicians")
        
         choice = input("Choose an option: ")
 
@@ -28,6 +32,24 @@ def cli():
 
         else:
             print("Invalid choice. Please try again.")
+
+        if choice == '2':
+            get_all_musicians()
+            print("\nWhat would you like to do with a musicians?")
+            print("1. Create a new musician")
+            print("2. Delete an existing musician")
+            print("3. Update an existing musician")
+            print("0. Go Back")
+
+            musician_action_choice = input("Choose an option:")
+
+            if musician_action_choice == '1':
+                create_musician()
+            elif musician_action_choice == '2':
+                delete_musician()
+            elif musician_action_choice == '3':
+                update_musician()
+
 
 
 def managers():
@@ -43,7 +65,6 @@ def managers():
             print("\n--- Manager ---")
             find_manager_by_name()
             
-            # After displaying manager details, ask for further action
             print("\nWhat would you like to do?")
             print("1. View musicians assigned to this manager")
             print("0. Go Back")
@@ -51,14 +72,25 @@ def managers():
             choice = input("Choose an option: ")
 
             if choice == '1':
-                manager_name = input("Enter the manager's name to view musicians: ")
-                manager = Manager.find_by_name(manager_name)
-                if manager:
-                    list_musicians(manager.id)  # Pass manager.id to the list_musicians function
-                else:
-                    print(f"Manager {manager_name} not found.")
+                list_managers_musicians()
+                print("\nWhat would you like to do with a musicians?")
+                print("1. Create a new musician")
+                print("2. Delete an existing musician")
+                print("3. Update an existing musician")
+                print("0. Go Back")
 
-            elif choice == '0':
+                musician_action_choice = input("Choose an option:")
+
+                if musician_action_choice == '1':
+                    create_musician()
+                elif musician_action_choice == '2':
+                    delete_musician()
+                elif musician_action_choice == '3':
+                    update_musician()
+        
+                        
+            
+        elif choice == '0':
                 break
 
         elif choice == '2':

@@ -118,12 +118,9 @@ class Manager:
     @classmethod
     def instance_from_db(cls, row):
         """Return a Manager object from a database row."""
-        # Check if an instance with the same id already exists
         manager = cls.all.get(row[0])
         
         if manager:
-            # If instance exists, just update its attributes if needed
-            manager.name = row[1]
             manager.age = row[2]
         else:
             # If instance doesn't exist, create a new one

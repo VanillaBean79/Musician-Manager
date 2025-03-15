@@ -3,9 +3,7 @@ from manager import Manager
 from musician import Musician 
 import sqlite3
 
-def exit_program():
-    print("ADIOS!")
-    exit()
+
 
 def format_manager(manager):
     return f"Manager: {manager.name}, Age: {manager.age} years old."
@@ -111,17 +109,109 @@ def delete_manager():
         print("No manager selected for deletion.")
 
 
-def list_musicians(manager_id):
-    """Fetch and list musicians assigned to the specified manager."""
-    # Fetch musicians for the given manager_id
-    musicians = Musician.view_by_manager_id(manager_id)
-        
-    if musicians:
-        # Enumerate and list musicians
-        for i, musician in enumerate(musicians, start=1):
-            print(f"{i}. {musician.name}, {musician.instrument}, {musician.category}")
+def list_managers_musicians():
+    name = input("Enter manager's name: ")
+    if manager := Manager.find_by_name(name):
+        for musician in manager.musicians():
+            print(f"\n{musician}\n")
     else:
-        print("No musicians found for this manager.")
+        print(f'\n{manager} not found\n')
+
+
+def create_musician():
+    name = input("Enter the new musician's name: ")
+    age = input("Enter the musician's age:")
+
+    try:
+        age = int(age)
+    except ValueError:
+        print("Age must be an integer.")
+        return
+    instrument = input("Enter instrument:")
+    category = input("Enter category:")
+    manager_id = input("Enter manager ID:")
+    
+    new_musician = Musician.create(name, age, instrument, category, manager_id)
+    print(f"Manager: {new_musician.name} (age: {new_musician.age}) instrument: {new_musician.instrument}, category: {new_musician.category}, manager_id: {new_musician.manager_id}) has been created successfully.")
+
+def delete_musician():
+    name = input("Enter musician's name: ")
+    if musician := Musician.name(name):
+        musician.delete()
+        print(f'\nMusician {name} has been deleted\n')
+    else:
+        print(f'\nMusician {name} not found\n')
+
+
+def update_musician():
+    # Get the musician's name to search
+    name = input("Enter musician's name: ")
+    
+    # Assuming Musician.name(name) returns a Musician object or None if not found
+    musician = Musician.name(name)  # Store the result of the search
+    
+    if musician is None:
+        print(f"Musician with the name '{name}' not found.")
+        return  # Exit the function early if no musician was found
+    
+    # Now that we know musician is not None, proceed with the update process
+    
+    # Update musician's name
+    new_name = input(f"Enter the musician's new name (or press Enter to keep the same): ")
+    if new_name:
+        musician.name = new_name
+    
+    # Update musician's age
+    new_age_input = input(f"Enter musician's new age (or press Enter to keep the same): ")
+    if new_age_input:
+        try:
+            new_age = int(new_age_input)
+            if 10 <= new_age <= 120:
+                musician.age = new_age
+            else:
+                print("Please enter a valid age between 10 and 120.")
+                return
+        except ValueError:
+            print("Age must be an integer.")
+            return
+    
+    # Update musician's instrument
+    new_instrument = input(f"Enter the musician's new instrument (or press Enter to keep the same): ")
+    if new_instrument:
+        musician.instrument = new_instrument
+    
+    # Update musician's category
+    new_category = input(f"Enter the musician's new category (or press Enter to keep the same): ")
+    if new_category:
+        musician.category = new_category
+    
+    # Update musician's manager_id
+    new_manager_id = input(f"Enter the musician's new manager ID (or press Enter to keep the same): ")
+    if new_manager_id:
+        try:
+            new_manager_id = int(new_manager_id)  # Convert input to integer
+            musician.manager_id = new_manager_id  # This will call the setter
+        except ValueError:
+            print("Manager ID must be an integer.")
+            return
+    
+    # If you've made it here, it means the musician has been updated successfully
+    print("Musician details updated successfully.")
+    musician.update()  # Now we can call update on the musician object
+
+
+
+
+
+def get_all_musicians():
+        musicians = Musician.get_all()
+        if musicians:
+         for i, musicians in enumerate(musicians, start=1):
+            print(f"{i}. Manager: {musicians.name}, Age: {musicians.age} years old. Instrument: {musicians.instrument}, category: {musicians.category}, manager_id: {musicians.manager_id}.")
+
+
+
+
 
 
 

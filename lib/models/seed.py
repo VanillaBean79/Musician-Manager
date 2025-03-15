@@ -10,6 +10,14 @@ def seed_database():
     for name, age in manager:
         Manager.create(name, age)
 
+def seed_database():
+    musician = [
+        ("Rex Everything", 30, "Drums", "Rhythm Section", 1)
+    ]
+
+    for name, age, instrument, category, manager_id in musician:
+        Musician.create(name, age, instrument, category, manager_id)
+
 
 print("database seeded!")
 seed_database()
